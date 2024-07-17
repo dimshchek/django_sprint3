@@ -52,6 +52,7 @@ posts = [
 
 posts_dict = {post['id']: post for post in posts}
 
+
 def index(request):
     """Главная."""
     reversed_posts = reversed(posts)

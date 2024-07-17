@@ -4,6 +4,7 @@ Module containing Django views for the blog application.
 This module includes views for rendering index, detail, and category pages.
 """
 from django.shortcuts import render
+from django.http import Http404
 
 
 posts = [
@@ -49,29 +50,27 @@ posts = [
     },
 ]
 
+posts_dict = {post['id']: post for post in posts}
 
 def index(request):
     """Главная."""
-    template = 'blog/index.html'
     reversed_posts = reversed(posts)
     context = {'posts': reversed_posts}
-    return render(request, template, context)
+    return render(request, 'blog/index.html', context)
 
 
-def post_detail(request, id):
+def post_detail(request, post_id):
     """Детали поста."""
-    post = next((post for post in posts if post['id'] == id), None)
-    template = 'blog/detail.html'
-    context = {
-        'post': post
-    }
-    return render(request, template, context)
+    post = posts_dict.get(post_id)
+    if post is None:
+        raise Http404("Пост не найден")
+    context = {'post': post}
+    return render(request, 'blog/detail.html', context)
 
 
 def category_posts(request, category_slug):
     """Поиск по категориям."""
-    template = 'blog/category.html'
     category_posts = [post for post in posts if
                       post['category'] == category_slug]
     context = {'posts': category_posts, 'category_slug': category_slug}
-    return render(request, template, context)
+    return render(request, 'blog/category.html', context)

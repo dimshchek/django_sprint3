@@ -1,13 +1,17 @@
-"""
-Module containing Django views for the blog application.
-
-This module includes views for rendering index, detail, and category pages.
-"""
 from django.shortcuts import render
 from django.http import Http404
+from typing import TypedDict, List, Dict
 
 
-posts = [
+class Post(TypedDict):
+    id: int
+    location: str
+    date: str
+    category: str
+    text: str
+
+
+posts: List[Post] = [
     {
         'id': 0,
         'location': 'Остров отчаянья',
@@ -50,7 +54,7 @@ posts = [
     },
 ]
 
-posts_dict = {post['id']: post for post in posts}
+posts_dict: Dict[int, Post] = {post['id']: post for post in posts}
 
 
 def index(request):
@@ -62,9 +66,9 @@ def index(request):
 
 def post_detail(request, post_id):
     """Детали поста."""
-    post = posts_dict.get(post_id)
-    if post is None:
-        raise Http404("Пост не найден")
+    if post_id not in posts_dict:
+        raise Http404('Пост не найден')
+    post = posts_dict[post_id]
     context = {'post': post}
     return render(request, 'blog/detail.html', context)
 

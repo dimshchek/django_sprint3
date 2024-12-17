@@ -1,6 +1,7 @@
+from typing import TypedDict, List, Dict
+
 from django.shortcuts import render
 from django.http import Http404
-from typing import TypedDict, List, Dict
 
 
 class Post(TypedDict):

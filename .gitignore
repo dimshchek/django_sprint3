@@ -146,9 +146,13 @@ dmypy.json
 .mypy_cache
 
 # папки со статикой и медиа
+<<<<<<< HEAD
 media/
 
 # Testing
 build_tests/
 yap_testing
 html/img/img/
+=======
+media/
+>>>>>>> master

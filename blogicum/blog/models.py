@@ -1,5 +1,9 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from .constants import (
+    TITLE_MAX_LENGTH,
+    NAME_MAX_LENGTH,
+)
 
 
 User = get_user_model()
@@ -22,7 +26,7 @@ class BaseModel(models.Model):
 
 class Category(BaseModel):
     title = models.CharField(
-        max_length=256,
+        max_length=TITLE_MAX_LENGTH,
         verbose_name='Заголовок',
     )
     description = models.TextField(verbose_name='Описание')
@@ -40,12 +44,12 @@ class Category(BaseModel):
         verbose_name_plural = 'Категории'
 
     def __str__(self):
-        return self.title
+        return self.title[:50] + ('...' if len(self.title) > 50 else '')
 
 
 class Location(BaseModel):
     name = models.CharField(
-        max_length=256,
+        max_length=NAME_MAX_LENGTH,
         verbose_name='Название места',
     )
 
@@ -54,12 +58,12 @@ class Location(BaseModel):
         verbose_name_plural = 'Местоположения'
 
     def __str__(self):
-        return self.name
+        return self.name[:50] + ('...' if len(self.title) > 50 else '')
 
 
 class Post(BaseModel):
     title = models.CharField(
-        max_length=256,
+        max_length=TITLE_MAX_LENGTH,
         verbose_name='Заголовок',
     )
     author = models.ForeignKey(
@@ -93,6 +97,8 @@ class Post(BaseModel):
     class Meta:
         verbose_name = 'публикация'
         verbose_name_plural = 'Публикации'
+        ordering = ('-pub_date',)
+        default_related_name = 'posts'
 
     def __str__(self):
-        return self.title
+        return self.title[:50] + ('...' if len(self.title) > 50 else '')

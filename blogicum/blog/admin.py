@@ -1,7 +1,12 @@
 from django.contrib import admin
+from django.contrib.auth.models import Group
 from .models import Post, Category, Location
 
 
+admin.site.unregister(Group)
+
+
+@admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = (
         'title',
@@ -26,6 +31,7 @@ class PostAdmin(admin.ModelAdmin):
     empty_value_display = ('Не задано')
 
 
+@admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = (
         'title',
@@ -44,6 +50,7 @@ class CategoryAdmin(admin.ModelAdmin):
     empty_value_display = ('Не задано')
 
 
+@admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
     list_display = (
         'name',
@@ -53,8 +60,3 @@ class LocationAdmin(admin.ModelAdmin):
     list_editable = ()
     search_fields = ('name',)
     empty_value_display = ('Не задано')
-
-
-admin.site.register(Post, PostAdmin)
-admin.site.register(Category, CategoryAdmin)
-admin.site.register(Location, LocationAdmin)

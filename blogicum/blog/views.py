@@ -1,11 +1,8 @@
-from .models import Post
-
-from django.utils.timezone import now
 from django.shortcuts import render, get_object_or_404
+from django.utils.timezone import now
+
+from .constants import INDEX_NUMBER_OF_POSTS
 from .models import Post, Category
-from .constants import (
-    INDEX_NUMBER_OF_POSTS,
-)
 
 
 def get_published_posts():

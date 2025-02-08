@@ -1,9 +1,8 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from .constants import (
-    TITLE_MAX_LENGTH,
-    NAME_MAX_LENGTH,
-)
+
+from .constants import TITLE_MAX_LENGTH, NAME_MAX_LENGTH
+from .utils import truncate_string
 
 
 User = get_user_model()
@@ -44,7 +43,7 @@ class Category(BaseModel):
         verbose_name_plural = 'Категории'
 
     def __str__(self):
-        return self.title[:50] + ('...' if len(self.title) > 50 else '')
+        return truncate_string(self.title)
 
 
 class Location(BaseModel):
@@ -58,7 +57,7 @@ class Location(BaseModel):
         verbose_name_plural = 'Местоположения'
 
     def __str__(self):
-        return self.name[:50] + ('...' if len(self.title) > 50 else '')
+        return truncate_string(self.name)
 
 
 class Post(BaseModel):
@@ -101,4 +100,4 @@ class Post(BaseModel):
         default_related_name = 'posts'
 
     def __str__(self):
-        return self.title[:50] + ('...' if len(self.title) > 50 else '')
+        return truncate_string(self.title)
